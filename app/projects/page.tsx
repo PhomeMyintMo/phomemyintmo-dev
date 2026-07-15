@@ -1,4 +1,4 @@
-import { AllProjects } from "@/pages/AllProjects";
+import AllProjects from "@/pages/AllProjects";
 
 
 export default async function ProjectsPage({

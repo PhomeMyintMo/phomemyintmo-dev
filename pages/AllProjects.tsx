@@ -7,16 +7,17 @@ import useReveal from "@/hooks/useReveal";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 type Props = {
-    initialProject: number;
+    initialProject?: number;
 };
 
 
-export function AllProjects({ initialProject }: Props) {
+export default function AllProjects({ initialProject = 0 }: Props) {
     const [activeTab, setActiveTab] = useState(initialProject);
     const [currentImage, setCurrentImage] = useState(0);
     const ref = useReveal<HTMLElement>();
 
-    const project = projects[activeTab];
+    const safeProjectIndex = Math.min(Math.max(activeTab, 0), projects.length - 1);
+    const project = projects[safeProjectIndex] ?? projects[0];
 
     const handleTabChange = (index: number) => {
         setActiveTab(index);
@@ -24,10 +25,12 @@ export function AllProjects({ initialProject }: Props) {
     }
 
     const nextImage = () => {
+        if (!project?.images?.length) return;
         setCurrentImage((prev) => prev === project.images.length - 1 ? 0 : prev + 1)
     }
 
     const prevImage = () => {
+        if (!project?.images?.length) return;
         setCurrentImage((prev) => prev === 0 ? project.images.length - 1 : prev - 1)
     }
     return (

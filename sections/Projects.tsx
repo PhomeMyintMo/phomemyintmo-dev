@@ -113,6 +113,12 @@ export const projects = [
 const Projects = () => {
   const displayProjects = projects.slice(0, 3);
   const ref = useReveal<HTMLElement>();
+  const cardBackgrounds = [
+    "bg-primary/40",
+    "bg-accent/40",
+    "bg-secondary/40",
+  ];
+
   return (
     <section id="projects" className="section" ref={ref}>
       <div className="flex flex-col">
@@ -129,7 +135,7 @@ const Projects = () => {
           {displayProjects.map((project, index) => (
             <div
               key={index}
-              className="flex flex-col space-y-6 h-full p-6 shadow-[var(--shadow-brutal)] bg-background border text-start hover:scale-105 transition-transform"
+              className={`flex flex-col space-y-6 h-full p-6 shadow-[var(--shadow-brutal)] border text-start hover:scale-105 transition-transform ${cardBackgrounds[index % cardBackgrounds.length]}`}
             >
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h3 className="text-xl font-semibold">{project.title}</h3>
