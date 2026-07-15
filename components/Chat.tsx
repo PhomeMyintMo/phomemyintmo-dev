@@ -1,0 +1,188 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import Message from "./ChatMessage";
+import ChatInput from "./ChatInput";
+import TypingIndicator from "./TypingIndicator";
+import { portfolio } from "@/lib/portfolio";
+
+import { ChatMessage } from "@/types/chat";
+import { CiUndo } from "react-icons/ci";
+import { RxCross2 } from "react-icons/rx";
+import { toast } from "sonner";
+
+export default function Chat() {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState("");
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("personal-chat");
+
+    if (saved) {
+      setMessages(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("personal-chat", JSON.stringify(messages));
+  }, [messages]);
+
+  function handleClearChat() {
+    const previousMessage = messages;
+
+    setMessages([]);
+    sessionStorage.removeItem("personal-chat");
+
+    toast("Conversation cleared.", {
+      className:
+    "!bg-[var(--color-background)] !text-[var(--color-text)] !border-2 !border-[var(--color-border)] !shadow-[var(--shadow-brutal)]",
+      action: {
+        label: (
+          <span className="flex items-center gap-2">
+            <CiUndo className="h-4 w-4" />
+            Undo
+          </span>
+        ),
+        onClick: () => {
+          setMessages(previousMessage);
+          localStorage.setItem(
+            "personal-chat",
+            JSON.stringify(previousMessage),
+          );
+        },
+      },
+    });
+  }
+
+  async function handleSend(text?: string) {
+    try {
+      const messageText = text ?? input;
+      if (!messageText.trim()) return;
+      setIsLoading(true);
+      const userMessage = {
+        id: crypto.randomUUID(),
+        role: "user" as const,
+        content: messageText,
+        createdAt: Date.now(),
+      };
+      const updatedMessages = [...messages, userMessage];
+      setMessages(updatedMessages);
+      setInput("");
+
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: updatedMessages,
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: data.message,
+          createdAt: Date.now(),
+        },
+      ]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content:
+            error instanceof Error ? error.message : "Something went wrong!",
+          createdAt: Date.now(),
+          isError: true,
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <div className="flex min-h-dvh flex-col text-sm">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <div className="mx-auto max-w-2xl ">
+          {messages.length === 0 ? (
+            <div className="flex flex-col items-left text-center space-y-4">
+              <div className="flex gap-2">
+                <div className="flex gap-2 text-left">
+                  <span className="text-blue-400 text-lg drop-shadow-[2px_2px_0_black]">
+                    ✦
+                  </span>
+                  <p className="text-md sm:text-lg">
+                    Ask me anything!
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                {portfolio.suggestions.map((question) => (
+                  <button
+                    key={question}
+                    onClick={() => handleSend(question)}
+                    className="bg-background border-blue-300 hover:bg-accent/20 gap-1 p-2 px-4 rounded-full border"
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="mb-4 flex justify-start">
+                <button
+                  onClick={handleClearChat}
+                  className="inline-flex hover:font-semibold items-center gap-2 rounded-full border border-blue-400 px-3 py-1.5 text-sm transition-colors"
+                >
+                  <RxCross2 className="h-4 w-4" />
+                  Clear chat
+                </button>
+              </div>
+              <div className="space-y-2">
+              {messages.map((message) => (
+                <Message key={message.id} message={message} />
+              ))}
+              </div>
+
+              {isLoading && <TypingIndicator />}
+
+              <div ref={bottomRef} />
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Fixed input */}
+      <div className="sticky bottom-0 bg-background">
+        <div className="mx-auto max-w-2xl space-y-2">
+
+          <ChatInput
+            value={input}
+            onChange={setInput}
+            onSend={handleSend}
+            isLoading={isLoading}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
