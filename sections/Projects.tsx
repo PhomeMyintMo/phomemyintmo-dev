@@ -37,13 +37,13 @@ export const projects = [
   },
   {
     id: "content-management",
-    title: "📊 Content Management Portal",
-    description: "A web portal for content creators to manage and track their content efficiently.",
+    title: "📊 Management Portals",
+    description: "Web portal for admins and content creators to manage and track their content efficiently.",
     detailedDescription: (
       <>
-        A content management portal developed for my current company <a href="" className="text-blue-600 font-semibold">MTG</a> that enables content creators to organize tasks, monitor content progress, receive real-time notifications, and streamline their workflow through an intuitive and responsive interface.
-      </>
+Designed and developed several internal management portals for my current company <a className="text-blue-600 font-bold">MTG</a> that help content creators and administrators manage tasks, monitor content workflows, receive real-time notifications, and improve operational efficiency using responsive web interfaces.      </>
     ),
+    company: "MTG Co.,Ltd",
     liveLink: "#",
     codeLink: "#",
     techStack: [
@@ -78,12 +78,12 @@ export const projects = [
         color: "text-[#764ABC]",
       },
     ],
-    images: ["/portalOne/WholePage.png", "/portalOne/Theme.png", "/portalOne/ParamsUrl.png", "/portalOne/Noti.png", "/portalOne/Language.png"],
+    images: ["/portalOne/admin.png","/portalOne/admin2.png","/portalOne/WholePage.png", "/portalOne/Theme.png", "/portalOne/ParamsUrl.png", "/portalOne/Noti.png", "/portalOne/Language.png"],
     features: [
-      "🔔 Real-time notifications powered by Firebase",
-      "🌐 Multi-language support (i18n)",
-      "☀️🌙 Light and dark theme switching",
-      "💾 Preserves page, filters, and pagination state when navigating between list, detail, create, and edit pages"]
+      "Real-time notifications using Firebase and Socket.IO",
+      "Multi-language support (i18n)",
+      "Light and dark theme switching",
+      "Preserves page, filters, and pagination state when navigating between list, detail, create, and edit pages"]
   },
   {
     id: "ecommerce-website",
@@ -140,7 +140,7 @@ const Projects = () => {
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h3 className="text-xl font-semibold">{project.title}</h3>
                 {project.status && (
-                  <span className="inline-flex items-center rounded-full border border-amber-500 bg-amber-100 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
+                  <span className="inline-flex items-center rounded-full border border bg-primary/60 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
                     {project.status}
                   </span>
                 )}
@@ -169,6 +169,13 @@ const Projects = () => {
                     >
                       Code <FaGithub />
                     </a>
+                  )}
+                  {project.company && (
+                    <p className="text-sm">
+                    <span className="text-sm ml-1 font-semibold text-muted-foreground bg-accent/60 px-2 p-1 border rounded-full">
+                      {project.company}
+                    </span>
+                    </p>
                   )}
                 </div>
 
