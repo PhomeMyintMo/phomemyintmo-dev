@@ -1,7 +1,6 @@
 "use client"
 
 import { portfolio } from "@/lib/portfolio";
-import Image from "next/image";
 
 type AssistantProfileProps = {
     createdAt?: number;
@@ -11,7 +10,7 @@ type AssistantProfileProps = {
 export default function AssistantProfile({ createdAt }: AssistantProfileProps) {
     return (
         <div className="flex items-center gap-2 mb-2">
-            <Image
+            <img
                 src="/Chatbot/profileImg.png"
                 alt={portfolio.name}
                 width={24}
