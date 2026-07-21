@@ -10,7 +10,7 @@ export default function AssistantProfile({ createdAt }: AssistantProfileProps) {
     return (
         <div className="flex items-center gap-2 mb-2">
             <Image
-                src="/Chatbot/avatar.jpg"
+                src="/Chatbot/avatar.png"
                 alt={portfolio.name}
                 width={24}
                 height={24}
