@@ -7,7 +7,8 @@ import { Metadata } from "next";
 import { Space_Grotesk, Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
-import BackgroundDoodles from "@/components/BackgroundDoodles";
+import ScrollProgress from "@/components/ScrollProgess";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -31,8 +32,9 @@ export default function RootLayout({
       lang="en" className={cn("font-sans", geist.variable)}
     >
       <body className={`${spaceGrotesk.variable} antialiased `}>
+        <ScrollProgress/>
+        <ScrollToTop/>
         <Navbar/>
-        {/* <BackgroundDoodles/> */}
         {children}
 
         <Footer/>
