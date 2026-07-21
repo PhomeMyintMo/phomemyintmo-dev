@@ -1,3 +1,5 @@
+"use client"
+
 import { portfolio } from "@/lib/portfolio";
 import Image from "next/image";
 

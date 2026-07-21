@@ -42,7 +42,7 @@ export default function Chat() {
 
     toast("Conversation cleared.", {
       className:
-    "!bg-[var(--color-background)] !text-[var(--color-text)] !border-2 !border-[var(--color-border)] !shadow-[var(--shadow-brutal)]",
+    "!bg-[var(--color-background)] !text-[var(--color-text)] !border",
       action: {
         label: (
           <span className="flex items-center gap-2">

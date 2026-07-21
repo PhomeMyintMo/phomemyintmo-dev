@@ -39,7 +39,7 @@ export default function RootLayout({
 
         <Footer/>
         <FloatingChatWrapper/>
-        <Toaster/>
+        <Toaster position="top-right"/>
         </body>
     </html>
   );

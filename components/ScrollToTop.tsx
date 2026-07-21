@@ -1,10 +1,15 @@
 "use client";
 
 import { ChevronsUp } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ScrollToTop() {
     const [isVisible, setIsVisible] = useState(false);
+        const pathname = usePathname()
+    if (pathname === "/chat") {
+      return null;
+    }
 
     useEffect(() => {
         const handleScroll = () => {
