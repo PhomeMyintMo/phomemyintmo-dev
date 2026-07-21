@@ -6,10 +6,8 @@ import { useEffect, useState } from "react";
 
 export default function ScrollToTop() {
     const [isVisible, setIsVisible] = useState(false);
-        const pathname = usePathname()
-    if (pathname === "/chat") {
-      return null;
-    }
+    const pathname = usePathname()
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,6 +29,10 @@ export default function ScrollToTop() {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+    if (pathname === "/chat") {
+        return null;
+    }
 
     const scrollToTop = () => {
         window.scrollTo({
