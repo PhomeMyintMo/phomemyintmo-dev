@@ -23,7 +23,7 @@ const Home = () => {
           <span className="text-secondary font-bold text-xl sm:text-2xl">
             Phome Myint Mo
           </span>
-        </h5>       <h2 className="text-lg sm:text-xl font-semibold italic">Frontend Developer</h2>
+        </h5>       <h2 className="text-lg sm:text-xl font-semibold italic">Web Developer specializing in Frontend</h2>
         <p>
           I’m passionate about art, design, and technology, and I enjoy working where these disciplines
           intersect. I build web applications with a focus on clean design, usability, and performance.
